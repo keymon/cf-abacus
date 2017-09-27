@@ -175,4 +175,24 @@ curl localhost:9500/debug?config='*'
  * The cf-abacus core does generic aggregation. The bridge sends the usage events per org.
 
 
+```
+
+```#!/bin/bash
+
+export AWS_ACCESS_KEY_ID=minio
+export AWS_SECRET_ACCESS_KEY=minio123
+
+mkdir -p a b c
+
+touch a/{1..1000}
+
+export MINIO_ENDPOINT=http://minio.local:9000
+set -e
+
+aws --endpoint $MINIO_ENDPOINT \
+  s3 sync --delete a s3://test-bucket/test
+aws --endpoint $MINIO_ENDPOINT \
+  s3 sync --delete b s3://test-bucket/test
+aws --endpoint $MINIO_ENDPOINT \
+  s3 sync --delete s3://test-bucket/test c
 
